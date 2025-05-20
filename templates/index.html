@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>MPI Parallel Processing App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <h1>MPI Parallel Processing Web App</h1>
+
+    <form action="/run" method="post" enctype="multipart/form-data">
+        <label for="task">Choose a task:</label>
+        <select name="task" id="task" onchange="toggleInputs()" required>
+            <option value="">-- Select a Task --</option>
+            <option value="sorting">1. Odd-Even Transposition Sort</option>
+            <option value="file_process">2. File Word Count + Deduplication</option>
+            <option value="image_process">3. Image Processing</option>
+            <option value="ml_training">4. Linear Regression</option>
+            <option value="text_search">5. Keyword Search in Text</option>
+            <option value="stats">6. Distributed Statistics (CSV)</option>
+            <option value="matrix_mult">7. Matrix Multiplication</option>
+        </select>
+
+        <div id="process-count" style="margin-top:10px;">
+            <label for="num_procs"># Processes:</label>
+            <input type="number" name="num_procs" id="num_procs" value="2" min="1" max="32" required />
+        </div>
+
+        <!-- Sorting Input -->
+        <div id="input-numbers" style="margin-top:10px; display:none;">
+            <label>Enter numbers (comma-separated):</label><br />
+            <textarea name="numbers" rows="3" cols="40" placeholder="e.g. 34, 7, 23, 32, 5"></textarea>
+        </div>
+
+        <!-- File processing upload -->
+        <div id="file-upload" style="margin-top:10px; display:none;">
+            <label>Upload a .txt file:</label><br />
+            <input type="file" name="file" accept=".txt" />
+        </div>
+
+        <!-- Image processing upload + filter select -->
+        <div id="image-upload" style="margin-top:10px; display:none;">
+            <label>Upload an image (.png, .jpg):</label><br />
+            <input type="file" name="image" accept=".png, .jpg, .jpeg" /><br /><br />
+            <label>Choose filter:</label>
+            <select name="filter_type">
+                <option value="grayscale">Grayscale</option>
+                <option value="blur">Blur</option>
+            </select>
+        </div>
+
+        <!-- ML training CSV upload -->
+        <div id="ml-upload" style="margin-top:10px; display:none;">
+            <label>Upload CSV file (numeric data):</label><br />
+            <input type="file" name="csvfile" accept=".csv" />
+        </div>
+
+        <!-- Text search upload + keyword input -->
+        <div id="text-search-upload" style="margin-top:10px; display:none;">
+            <label>Upload large text file (.txt):</label><br />
+            <input type="file" name="textfile" accept=".txt" /><br /><br />
+            <label>Keyword to search:</label><br />
+            <input type="text" name="keyword" />
+        </div>
+
+        <!-- Stats CSV upload -->
+        <div id="stats-upload" style="margin-top:10px; display:none;">
+            <label>Upload CSV file (numeric columns):</label><br />
+            <input type="file" name="csvfile" accept=".csv" />
+        </div>
+
+        <!-- Matrix multiplication manual input -->
+        <div id="matrix-input" style="margin-top:10px; display:none;">
+            <label>Enter Matrix A (CSV format):</label><br />
+            <textarea name="matrix_a" rows="5" cols="40" placeholder="1,2,3&#10;4,5,6"></textarea><br /><br />
+            <label>Enter Matrix B (CSV format):</label><br />
+            <textarea name="matrix_b" rows="5" cols="40" placeholder="7,8&#10;9,10&#10;11,12"></textarea>
+        </div>
+
+        <br />
+        <button type="submit">Run Task</button>
+    </form>
+
+    <script>
+        function toggleInputs() {
+            const task = document.getElementById('task').value;
+
+            // Hide all input divs first
+            const inputs = [
+                'input-numbers', 'file-upload', 'image-upload',
+                'ml-upload', 'text-search-upload', 'stats-upload', 'matrix-input'
+            ];
+            inputs.forEach(id => document.getElementById(id).style.display = 'none');
+
+            if (task === 'sorting') {
+                document.getElementById('input-numbers').style.display = 'block';
+            } else if (task === 'file_process') {
+                document.getElementById('file-upload').style.display = 'block';
+            } else if (task === 'image_process') {
+                document.getElementById('image-upload').style.display = 'block';
+            } else if (task === 'ml_training') {
+                document.getElementById('ml-upload').style.display = 'block';
+            } else if (task === 'text_search') {
+                document.getElementById('text-search-upload').style.display = 'block';
+            } else if (task === 'stats') {
+                document.getElementById('stats-upload').style.display = 'block';
+            } else if (task === 'matrix_mult') {
+                document.getElementById('matrix-input').style.display = 'block';
+            }
+        }
+        // Initialize inputs on page load
+        window.onload = toggleInputs;
+    </script>
+</body>
+</html>

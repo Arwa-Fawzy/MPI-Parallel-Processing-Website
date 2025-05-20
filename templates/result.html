@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>MPI Task Result</h1>
+
+    {% if output %}
+        <h3>Standard Output:</h3>
+        <pre>{{ output }}</pre>
+    {% endif %}
+
+    {% if image_url %}
+        <h3>Processed Image:</h3>
+        <img src="{{ image_url }}" alt="Processed Image" style="max-width: 500px;">
+    {% endif %}
+
+    {% if chart_url %}
+        <h3>Performance Chart:</h3>
+        <img src="{{ chart_url }}" alt="Performance Chart">
+    {% endif %}
+
+    <br><br>
+    <a href="/">← Back to Home</a>
+</body>
+</html>
